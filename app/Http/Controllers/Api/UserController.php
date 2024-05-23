@@ -83,12 +83,7 @@ class UserController extends Controller
     public function viewUserMedia($userId)
     {
         $user = User::find($userId); 
-        $direcciones = Address::where('user_id', $userId)->get();
-        $media = media::where('user_id', $userId)->get();
-        $mediaCount = media::where('user_id', $userId)->count();
-        $followers = $user->followers()->count();
-        $following = $user->following()->count();
-        return response()->json([$user, $direcciones, $media, $mediaCount, $followers, $following], 200);
+        return response()->json([$user], 200);
     }
 
     public function getRandomUsers()
