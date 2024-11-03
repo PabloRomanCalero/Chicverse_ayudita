@@ -17,6 +17,18 @@ listarUsuario = async () => {
     profileImg.alt = "Profile Picture";
     profileImg.classList.add('profile-img');
 
+    profileImg.onload = function() {
+        if (profileImg.naturalWidth > profileImg.naturalHeight) {
+            profileImg.classList.add('ImagenMayorWidth');
+        }
+        else if (profileImg.naturalHeight > profileImg.naturalWidth) {
+            profileImg.classList.add('ImagenMayorHeight');
+        }
+        else{
+            profileImg.classList.add('ImagenCuadrada');
+        }
+    };
+
     profilePicture.appendChild(profileImg);
 
     const profileDetails = document.createElement('div');
