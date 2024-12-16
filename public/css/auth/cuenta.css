@@ -208,10 +208,10 @@ a.botonForm {
 
 .titleH2Publi {
     color: #333;
-    font-size: 2em; 
-    margin-top: 1em; 
-    margin-bottom: 1em; 
-    text-transform: uppercase; 
+    font-size: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-transform: uppercase;
     font-weight: 500;
 }
 
@@ -258,10 +258,10 @@ a.botonForm {
 }
 
 .media-content p {
-    color: #333333; 
-    margin-bottom: 10px; 
-    font-size: 1em; 
-    text-align: left; 
+    color: #333333;
+    margin-bottom: 10px;
+    font-size: 1em;
+    text-align: left;
     margin-left: 3px;
     margin-block-start: 0.7em;
     margin-block-end: 0.7em;
@@ -285,10 +285,10 @@ a.botonForm {
 .like-button {
     background: none;
     border: none;
-    color: #ff0000; 
+    color: #ff0000;
     font-size: 24px;
     cursor: pointer;
-    transition: transform 0.2s; 
+    transition: transform 0.2s;
 }
 
 .like-button:hover {
@@ -296,16 +296,16 @@ a.botonForm {
 }
 
 .fa-heart:before {
-    content: "\f004"; 
+    content: "\f004";
 }
 
 .comment-button {
     background: none;
     border: none;
-    color: black; 
+    color: black;
     font-size: 24px;
     cursor: pointer;
-    transition: transform 0.2s; 
+    transition: transform 0.2s;
 }
 
 .comment-button:hover {
@@ -313,7 +313,7 @@ a.botonForm {
 }
 
 .fa-comment:before {
-    content: "\f004"; 
+    content: "\f004";
 }
 
 .divComments{
@@ -567,4 +567,21 @@ a.botonForm {
     .titleH2Publi {
         font-size: 1.5em;
     }
+}
+
+.botonLineaPedido{
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    width: 40px;
+    background-color: lightgrey;
+    padding: 10px;
+    border-radius: 5px;
+    img{
+        max-width: 100%;
+    }
+}
+
+.botonLineaPedido:hover{
+    cursor: pointer;
 }
