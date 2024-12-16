@@ -209,7 +209,6 @@ listarMedia = async () => {
                     likedMedia.push(`${media.id}-${media.user_id}-${userLogged}`);
                     localStorage.setItem('likedMedia', JSON.stringify(likedMedia));
 
-                    $userId = media.user_id;
                     await fetch('api/crearDescuento', {
                         method: 'POST',
                         headers: {

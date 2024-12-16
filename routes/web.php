@@ -99,6 +99,12 @@ Route::get('/showOrders', [OrderController::class,'showOrders'])->name('showOrde
 Route::get('api/users/getUserIdLogged',[App\Http\Controllers\Api\UserController::class,'getUserIdLogged'])->middleware('api');
 
 
+
+Route::get('api/users/getRandomUsers',[App\Http\Controllers\Api\UserController::class,'getRandomUsers'])->middleware('api');
+Route::get('api/users/getUserIdLogged',[App\Http\Controllers\Api\UserController::class,'getUserIdLogged'])->middleware('api');
+Route::post('api/tallas/tallasOfProduct',[App\Http\Controllers\Api\TallaController::class,'tallasOfProduct'])->middleware('api');
+Route::post('api/tallas/{product_id}/getStockOfTalla/{size}',[App\Http\Controllers\Api\TallaController::class,'getStockOfTalla'])->middleware('api');
+
 //API RESOURCES
 Route::apiResource('api/users',App\Http\Controllers\Api\UserController::class)->middleware('api');
 Route::apiResource('api/products',App\Http\Controllers\Api\ProductController::class)->middleware('api');
