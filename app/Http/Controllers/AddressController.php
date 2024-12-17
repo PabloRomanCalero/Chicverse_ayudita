@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class AddressController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display amai a listing of the resource.
      */
     public function index()
     {
