@@ -1,0 +1,421 @@
+body {
+    background-color: #fff;
+    margin: 0;
+    overflow-y: scroll;
+}
+
+.seccionesFunciones ul li:nth-child(2) a{
+    font-weight: bold;
+}
+
+.section-profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: max-content;
+    margin-top: 1em;
+}
+
+.profile-info {
+    margin-top: 2.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 50px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 25%;
+}
+
+.profile-picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    width: 150px;
+    height: 150px;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.form-control-file{
+    display: none;
+}
+
+.profile-details {
+    margin-top: 0;
+    color: #333;
+    text-align: center;
+}
+
+.profile-details h2 {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.profile-details p {
+    color: #666;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.profile-stats {
+    list-style-type: none;
+    padding: 0;
+}
+
+.profile-stats li {
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.botonForm{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #0095f6;
+    color: #fff;
+    font-size: 1em;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.botonForm:hover {
+    background-color: #0056b3;
+    cursor: pointer;
+}
+
+.deslogearse{
+    margin-right: 10px;
+}
+
+.deslogearse > button{
+    background-color: red;
+}
+
+.deslogearse > button:hover{
+    background-color: rgb(198, 10, 10);
+}
+
+a.botonForm{
+    margin-bottom: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.deleteUserForm > button{
+    background-color: red;
+}
+
+.deleteUserForm > button:hover{
+    background-color: rgb(198, 10, 10);
+}
+
+.media-container {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap:wrap;
+    margin-top: 3em;
+    padding-bottom: 8em;
+}
+
+.titleH2Publi {
+    color: #333;
+    font-size: 2em; 
+    margin-top: 1em; 
+    margin-bottom: 1em; 
+    text-transform: uppercase; 
+    font-weight: 500;
+}
+
+#botonFormAddress{
+    margin-left: 0;
+}
+
+.media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    width: 38%;
+    height: fit-content;
+    padding-bottom: 13px;
+    padding-top: 3%;
+}
+
+.divVideoImagen{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 500px;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+}
+
+.divVideoImagen *{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media-content{
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.media-content p {
+    color: #333333; 
+    margin-bottom: 10px; 
+    font-size: 1em; 
+    text-align: left; 
+    margin-left: 3px;
+    margin-block-start: 0.7em;
+    margin-block-end: 0.7em;
+}
+
+.media-functions{
+    display: flex;
+    flex-direction: row;
+}
+
+.media-functions > p{
+    margin-left: 3px;
+    margin-right: 10px;
+}
+
+.media-functions > button{
+    padding-inline: 0px;
+    padding-block: 0px;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    color: #ff0000; 
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s; 
+}
+
+.like-button:hover {
+    transform: scale(1.2);
+}
+
+.fa-heart:before {
+    content: "\f004"; 
+}
+
+.comment-button {
+    background: none;
+    border: none;
+    color: black; 
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s; 
+}
+
+.comment-button:hover {
+    transform: scale(1.2);
+}
+
+.fa-comment:before {
+    content: "\f004"; 
+}
+
+.divComments{
+    display: none;
+    padding: 0;
+    width: 100%;
+}
+
+.comment{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 3px;
+    border-radius: 5px;
+    width: 98%;
+}
+
+.imageUserComment{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 5px;
+    margin-left: 2px;
+    position: relative;
+}
+
+.imageUserComment > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.inputComment{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.divPublicaciones {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    gap: 2.5em;
+}
+
+.commentInfo {
+    color: #333333;
+}
+
+.botonLineaPedido{
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    width: 40px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}
+.botonLineaPedido img {
+    width: 100%;
+}
+
+.botonLineaPedido:hover{
+    cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .profile-info {
+        width: 40%;
+        padding: 30px;
+    }
+
+    .profile-details h2 {
+        font-size: 2em;
+    }
+
+    .profile-details p {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-profile {
+        margin-top: 4em;
+    }
+
+    .profile-info {
+        width: 60%;
+        padding: 20px;
+    }
+
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-actions{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-details h2 {
+        font-size: 1.5em;
+    }
+
+    .profile-details p {
+        font-size: 0.9em;
+    }
+
+    .media-container {
+        width: 90%;
+        margin-bottom: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-profile {
+        margin-top: 2em;
+    }
+
+    .profile-info {
+        width: 80%;
+        padding: 15px;
+    }
+
+    .profile-actions{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-details h2 {
+        font-size: 1.2em;
+    }
+
+    .profile-details p {
+        font-size: 0.8em;
+    }
+
+    .botonForm {
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+
+    .media-container {
+        width: 60%;
+        padding: 10px;
+        margin-bottom: 6em;
+        margin-right: 1em;
+    }
+
+    .titleH2Publi {
+        font-size: 1.5em;
+    }
+}

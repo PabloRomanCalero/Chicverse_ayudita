@@ -1,0 +1,160 @@
+
+*{
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+main {
+    margin-left: 300px;
+    padding: 20px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+    padding: 10px;
+    height: 5%;
+    margin-top: 10%;
+
+}
+
+.logo a{
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.logo a img{
+    width: 55px;
+    height: 55px;
+    margin-left: 10px;
+}
+
+.seccionesFunciones{
+    height: 70%;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+  
+.sidebar ul li {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    transition: background-color 0.4s;
+}
+
+.sidebar ul li a{
+    text-decoration: none;
+    font-size: 18px;
+    color: #333;
+    display: flex; 
+    align-items: center; 
+    padding: 10px;
+}
+
+.sidebar ul li:hover {
+    background-color: #f0f0f0;
+}
+
+.sidebar ul li a:hover {
+    color: #000000;
+}
+   
+.sidebar ul li img {
+    width: 24px; 
+    height: 24px;
+    margin-right: 12px;
+    margin-bottom: 3px;
+    transition: transform 0.3s ease; 
+}
+
+.sidebar ul li:hover img {
+    transform: scale(1.083); 
+}
+
+.sidebar p{
+    color: #C7C7C7;
+    padding: 15px;
+}
+
+.sidebar .dropdown {
+    position: relative;
+}
+
+.sidebar .dropdown .submenu {
+    display: none;
+    position: absolute;
+    bottom: 100%; 
+    left: 0;
+    width: 260px;
+    background-color: #fff;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    list-style: none;
+    padding: 10px;
+    margin-bottom: 3px;
+    overflow: hidden;
+}
+
+.sidebar .submenu li a {
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 8px;
+    color: #333;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.4s;
+}
+
+.dropdown {
+    cursor: pointer;
+}
+
+.sidebar .submenu a:hover {
+    background-color: #f0f0f0;
+    color: black;
+}
+
+.seccionesFunciones ul li:last-child a{
+    position: relative;
+}
+
+.numCarrito {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0.3em 0.6em;
+    font-size: 0.6em;
+    position: absolute;
+    top: 42%;
+    left: 9%; 
+}
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+.section-mapaweb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 6em;
+}
+
+.article-mapaweb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    background-color: white;
+    margin: 20px;
+}
+
+.lista-mapaweb,
+.lista-mapaweb li ul li {
+    list-style: none;
+    margin: 10px;
+}
+
+.lista-mapaweb a {
+    text-decoration: none;
+    color: black;
+    margin: 20px;
+}
+
+.inicio-rutas-mapaWeb {
+    font-size: 1.7em;
+}
+
+.rutas-mapaweb {
+    font-size: 1.3em;
+    margin: 25px;
+}
+
+.rutas-mapaweb ul {
+    font-size: 1.1em;
+}
+
+@keyframes links {
+    from {
+        color: black;
+        font-size: 1.1em;
+        font-weight: 500;
+        border-bottom: 2px solid rgb(170, 167, 167);
+    }
+
+    to {
+        color: rgb(166, 91, 236);
+        font-size: 1.2em;
+        font-weight: bold;
+        border-bottom: 2px solid rgb(78, 78, 78);
+    }
+}
+
+.rutas-mapaweb a:hover {
+    animation-name: links;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes linkInicio {
+    from {
+        color: black;
+        font-size: 1.7em;
+        border-bottom: 2px solid rgb(153, 144, 144);
+    }
+
+    to {
+        color: rgb(166, 91, 236);
+        font-size: 2em;
+        border-bottom: 2px solid rgb(44, 44, 44);
+    }
+}
+
+.inicio-rutas-mapaWeb:hover {
+    animation-name: linkInicio;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}

@@ -1,0 +1,477 @@
+body {
+    display: flex;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+}
+
+.seccionesFunciones ul li:first-child a{
+    font-weight: bold;
+}
+
+#content-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 1em;
+    padding-top: 3em;
+}
+
+
+.containerScroll {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    width: 70%; 
+    height: max-content;
+}
+
+.search {
+    display: flex;
+    flex-direction: column;
+    width: 30%; 
+}
+
+.containerMedia {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4em;
+    width: 100%;
+    margin-bottom: 6em;
+    height: max-content;
+}
+
+.scrollable-content {
+    background-color: #4CAF50;
+    width: 100%;
+    height: 39em;
+    border-radius: 10px;
+}
+
+.media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    width: 50%;
+    height: fit-content;
+    padding-bottom: 13px;
+}
+
+.userMediaDiv {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.imgProfileMediaDiv {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    margin-right: 5px;
+    margin-left: 2px;
+}
+
+.imgProfileMediaDiv > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.imgProfileMedia {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profileMedia{
+    font-size: 1.3em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.divVideoImagen{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 600px;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+}
+
+.divVideoImagen *{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media-content{
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.media-content p {
+    color: #333333; 
+    margin-bottom: 10px; 
+    font-size: 1em; 
+    text-align: left; 
+    margin-left: 3px;
+    margin-block-start: 0.7em;
+    margin-block-end: 0.7em;
+}
+
+.media-functions{
+    display: flex;
+    flex-direction: row;
+}
+
+.media-functions > p{
+    margin-left: 3px;
+    margin-right: 10px;
+}
+
+.media-functions > button{
+    padding-inline: 0px;
+    padding-block: 0px;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    color: #ff0000; 
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s; 
+}
+
+.like-button:hover {
+    transform: scale(1.2);
+}
+
+.fa-heart:before {
+    content: "\f004"; 
+}
+
+.comment-button {
+    background: none;
+    border: none;
+    color: black; 
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s; 
+}
+
+.comment-button:hover {
+    transform: scale(1.2);
+}
+
+.fa-comment:before {
+    content: "\f004"; 
+}
+
+.divComments{
+    display: none;
+    padding: 0;
+    width: 100%;
+}
+
+.comment{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 3px;
+    border-radius: 5px;
+    width: 98%;
+}
+
+.imageUserComment{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 5px;
+    margin-left: 2px;
+    position: relative;
+}
+
+.imageUserComment > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.inputComment{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.botonCrearComment {
+    display: none;
+}
+
+.commentInfo {
+    color: #333333;
+}
+
+.search input[type="text"] {
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.resultadosUsersDiv{
+    width: 250px;
+    display: none;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.botonUserForm{
+    display: none;
+}
+
+.resultadoU{
+    padding: 5px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    color: #333333;
+    margin: 5px;
+}
+
+.imageUserFind {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 8px;
+    margin-left: 2px;
+    position: relative;
+}
+
+.imageUserFind img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.resultadoU:hover{
+    background-color: #f0f0f0;
+    color: black;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+    width: 250px; 
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.inputContainer:focus-within {
+    border: 1px solid black;
+    background-color: #f0f0f0;
+}
+
+.imgSearchContainer {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    margin-left: 5px; 
+    margin-bottom: 2px;
+}
+
+.imgSearch {
+    width: 18px;
+    height: 18px;
+}
+
+#searchUser {
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+#searchUser:focus-within {
+    background-color: #f0f0f0;
+}
+
+.searchedUserForm {
+    margin-block-end: 0.1em;
+}
+
+.searchAndRecomended {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.randomUsersRecommended {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+    gap: 0.5em;
+    margin-left: 4px;
+}
+
+.recomendedUserDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.recomendedUserDivImage {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 8px;
+    margin-left: 2px;
+    position: relative;
+}
+
+.recomendedUserDivImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.divNameLink {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 1px;
+}
+
+.divNameLink > *{
+    font-size: 0.9rem;
+}
+
+.divNameLink a {
+    color: #0095f6; 
+    text-decoration: none;
+    transition: color 0.3s; 
+}
+
+.divNameLink a:hover {
+    color: #0056b3;
+    cursor: pointer;
+}
+
+.titleUsersRecomended {
+    color:#C7C7C7;
+    font-size: 1.05rem;
+}
+
+
+
+
+@media (max-width: 1024px) {
+    .media {
+        width: 45%;
+    }
+
+    .media-content {
+        width: 90%;
+    }
+
+    .divVideoImagen {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .containerMedia {
+        margin-top: 5em;
+        margin-bottom: 4em;
+        gap: 2em;
+    }
+
+    .media {
+        width: 70%;
+        margin-right: 3.4em;
+    }
+
+    .media-content p {
+        font-size: 0.9em;
+    }
+
+    .media-content {
+        width: 95%;
+    }
+
+    .profileMedia {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .containerMedia {
+        margin-top: 6em;
+        margin-bottom: 3em;
+        gap: 1em;
+    }
+
+    .media {
+        width: 70%;
+        margin-right: 35px;
+    }
+
+    .profileMedia {
+        font-size: 1em;
+    }
+
+    .media-content p {
+        font-size: 0.8em;
+    }
+
+    .like-button, .comment-button {
+        font-size: 20px;
+    }
+
+
+    .media-functions > p {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .imageUserComment {
+        width: 10%;
+        height: 10%;
+    }
+
+    .comment {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .inputComment {
+        width: 100%;
+    }
+}
