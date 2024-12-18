@@ -69,6 +69,8 @@ Route::post('api/comments/mediaComments',[App\Http\Controllers\Api\CommentContro
 Route::get('api/users/viewUserMedia/{user_id}',[App\Http\Controllers\Api\UserController::class,'viewUserMedia'])->middleware('api');
 Route::post('/searchedUser',[UserController::class,'showSearchedUser'])->name('searchedUser');
 Route::post('api/crearDescuento',[App\Http\Controllers\Api\DescuentoController::class,'verificarLikesDescuento'])->middleware('api');
+Route::get('api/users/getRandomUsers',[App\Http\Controllers\Api\UserController::class,'getRandomUsers'])->middleware('api');
+
 
 //SearchedUser
 Route::post('api/followers/followUser',[App\Http\Controllers\Api\FollowersController::class,'followUser'])->name('followUser')->middleware('auth');
@@ -83,17 +85,19 @@ Route::get('api/image/product/{product_id}',[App\Http\Controllers\Api\ImageContr
 //Product
 Route::get('/product-info/{id}', [ProductController::class,'show']);
 Route::get('api/product/{product_id}',[App\Http\Controllers\Api\ProductController::class,'getProductById'])->middleware('api');
-Route::put('api/products/stock/{product}',[App\Http\Controllers\Api\ProductController::class,'updatestock'])->middleware('api');
+
+//Tallas
+Route::put('api/tallas/stockUpdate',[App\Http\Controllers\Api\TallaController::class,'updatestock'])->middleware('api');
+Route::post('api/tallas/tallasOfProduct',[App\Http\Controllers\Api\TallaController::class,'tallasOfProduct'])->middleware('api');
+Route::post('api/tallas/{product_id}/getStockOfTalla/{size}',[App\Http\Controllers\Api\TallaController::class,'getStockOfTalla'])->middleware('api');
 
 //ORDERS-ORDERSLINE
 Route::get('api/orders/cart',[App\Http\Controllers\Api\OrderController::class,'orderCart'])->middleware('api');
 Route::get('/showOrders', [OrderController::class,'showOrders'])->name('showOrders')->middleware('auth');
 
 
-Route::get('api/users/getRandomUsers',[App\Http\Controllers\Api\UserController::class,'getRandomUsers'])->middleware('api');
 Route::get('api/users/getUserIdLogged',[App\Http\Controllers\Api\UserController::class,'getUserIdLogged'])->middleware('api');
-Route::post('api/tallas/tallasOfProduct',[App\Http\Controllers\Api\TallaController::class,'tallasOfProduct'])->middleware('api');
-Route::post('api/tallas/{product_id}/getStockOfTalla/{size}',[App\Http\Controllers\Api\TallaController::class,'getStockOfTalla'])->middleware('api');
+
 
 //API RESOURCES
 Route::apiResource('api/users',App\Http\Controllers\Api\UserController::class)->middleware('api');

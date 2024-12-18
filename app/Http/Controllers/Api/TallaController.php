@@ -78,4 +78,13 @@ class TallaController extends Controller
             return response()->json(['error' => 'Talla no encontrada'], 404);
         }
     }
+
+    public function updatestock(Request $request)
+    {
+        $talla = Tallas::where('product_id', $request->product_id)->where('talla', $request->talla)->first();
+        $talla->stock = $request->get('stock');
+        $talla->save();
+
+        return response()->json($talla,201);
+    }
 }

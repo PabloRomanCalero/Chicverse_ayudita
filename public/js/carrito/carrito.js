@@ -72,12 +72,16 @@ async function listarCarrito(){
             menos.textContent = '-';
             mas.textContent = '+';
             precio.textContent = `Pr/ud: ${producto.price} €`;
+            precio.dataset.precioInd = producto.price;
+            precio.id = `${producto.id}-${tallaData.talla}-precioInd`;
             precioTotalProducto.textContent = `Total: ${(producto.price * line.quantity).toFixed(2)} €`;
             precioTotalProducto.id = `${producto.id}-${tallaData.talla}-precio`;
             precioTotalProducto.dataset.precio = producto.price * line.quantity;
             botonEliminar.textContent = 'Eliminar';
             talla.textContent = `TALLA : ${tallaData.talla}`;
             stock.textContent = `STOCK : ${tallaData.stock}`;
+            stock.dataset.stock = tallaData.stock;
+            stock.id = `${producto.id}-${tallaData.talla}-stock`;
             cantidad.textContent = line.quantity;
             cantidad.id = `${producto.id}-${tallaData.talla}-cantidad`;
             cantidad.dataset.cantidad = line.quantity;
@@ -109,7 +113,7 @@ async function listarCarrito(){
 
             precioFinal += producto.price * line.quantity;
             let precioTotalProductos = producto.price * line.quantity;
-            listaProductos.push({"name":producto.name,"cantidad":line.quantity,"precio":precioTotalProductos,"product_id":producto.id,"stock":producto.stock});
+            listaProductos.push({"name":producto.name,"cantidad":line.quantity,"precio":precioTotalProductos,"product_id":producto.id,"stock":tallaData.stock, "talla": tallaData.talla});
 
             if(tallaData.stock < line.quantity){
                 stockTotal = false;
@@ -119,7 +123,7 @@ async function listarCarrito(){
             if(contadorLinesLength === orderLinesLength){
                 precioFinal = precioFinal.toFixed(2);
                 compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,listaProductos);
-                eventoSumarRestar(tallaData.stock, producto.price);
+                eventoSumarRestar();
                 borrarLineOrder();
             }
 
@@ -141,7 +145,7 @@ async function listarCarrito(){
     }
 }
 
-function eventoSumarRestar(stock, price){
+function eventoSumarRestar(){
     
     let botonesCantidad = document.querySelectorAll('.boton-mas-menos');
     botonesCantidad.forEach(boton=>{
@@ -153,6 +157,10 @@ function eventoSumarRestar(stock, price){
             let textPrice = document.getElementById(`${line}-precio`);
             let cantidad = parseInt(textCantidad.textContent);
 
+            let stock = document.getElementById(`${line}-stock`).getAttribute("data-stock");
+            let price = document.getElementById(`${line}-precioInd`).getAttribute("data-precio-ind");
+            console.log(stock);
+            console.log(price);
             if (target === '+') {
                 if (cantidad < stock) {
                     cantidad += 1;
@@ -267,8 +275,7 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
     }
     
     botonFinalizarCompra.textContent = 'Finalizar la compra';
-    if (numeroCarrito === 0) { articulosCarrito.textContent = `OOPS, no hoy ningún artículo en tu carrito` }
-    else if (numeroCarrito === 1) { articulosCarrito.textContent = `Hay ${numeroCarrito} artículo en tu carrito` }
+    if (numeroCarrito === 1) { articulosCarrito.textContent = `Hay ${numeroCarrito} artículo en tu carrito` }
     else { articulosCarrito.textContent = `Hay ${numeroCarrito} artículos en tu carrito` }
     totalPrecio.textContent = `Total: ${precioFinal} €`;
 
@@ -310,7 +317,6 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
             direccion = false;
         }
 
-        //Finalizar compra
         if (finalizaCompraBoolean) {
             sectionCarrito.innerHTML = "";
             let tituloConfirmacionDireccion = document.createElement('h1');
@@ -331,14 +337,14 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
             });
             sectionCarrito.append(tituloConfirmacionDireccion, listaDirecciones);
             let botonesdirecciones = document.querySelectorAll('.boton-confirmacion-direccion');
-            //coger el id de la order
+
             let resOrder = await fetch('/api/orders/cart');
             let order = await resOrder.json();
             let orderId = order[0].id;
             console.log(orderId);
 
             for (let botonDireccion of botonesdirecciones) {
-                //evento de confirmacion de la direccion 
+
                 botonDireccion.addEventListener('click', async (e) => {
                     let addresId = e.target.value;
                     console.log(orderId, addresId);
@@ -355,7 +361,6 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
                     tituloProductosPedido.className = "titulos-carrito";
                     articleVentaFinal.append(tituloProductosPedido);
 
-                    //Lista de productos que van a ser comprados
                     listaProductos.forEach(producto => {
                         precioTotalFinal += producto.precio;
                         let divProducto = document.createElement('div');
@@ -382,12 +387,12 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
                     let botonFinalizarPago = document.createElement('button');
                     botonFinalizarPago.className = 'boton-finalizar-pago';
                     botonFinalizarPago.textContent = 'Finalizar pago';
-                    if (precioTotalFinal < 69.99) {
+                    if (precioTotalFinal < 99.99) {
                         let anuncio = document.createElement('p');
                         console.log(precioFinal);
                         precioTotalFinal = parseFloat(precioFinal) + 3.95;
                         console.log(precioTotalFinal);
-                        anuncio.textContent = 'Si el total de la compra supera los 70€, el envio será gratuito';
+                        anuncio.textContent = 'Si el total de la compra supera los 100€, el envio será gratuito';
                         precioEnvio.textContent = 'Precio del envio: 3,95€';
                         precioFinalProductos.textContent = `Total del pedido: ${precioTotalFinal.toFixed(2)} €`;
                         articleVentaFinal.append(anuncio);
@@ -398,10 +403,8 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
                     articleVentaFinal.append(precioEnvio, precioFinalProductos, botonFinalizarPago);
                     sectionCarrito.append(articleVentaFinal);
 
-                    //finalizar pago, eliminar productos en base de datos y cambio del status del order
                     botonFinalizarPago.addEventListener('click', async (e) => {
-                        //Cambio de carrito
-                        fetch(`api/orders/${orderId}`, {
+                        fetch(`/api/orders/${orderId}`, {
                             method: "PUT",
                             headers: {
                                 'X-CSRF-TOKEN': token,
@@ -410,21 +413,21 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
                             body: JSON.stringify({ "address_id": addresId, "totalPrice": precioTotalFinal }),
                         });
 
-                        //Eliminar productos(stock)
                         listaProductos.forEach(async (producto) => {
+                            console.log(producto.talla);
                             let stock = producto.stock - producto.cantidad;
                             console.log(stock);
-                            fetch(`api/products/stock/${producto.product_id}`, {
+                            fetch('/api/tallas/stockUpdate', {
                                 method: "PUT",
                                 headers: {
                                     'X-CSRF-TOKEN': token,
                                     'Content-Type': 'application/json',
                                 },
-                                body: JSON.stringify({ "stock": stock }),
+                                body: JSON.stringify({ "stock": stock, "talla": producto.talla, "product_id": producto.product_id }),
                             });
                         });
+                        document.querySelector(".numCarrito").textContent = "0";
                         setTimeout(() => {
-                            window.location.reload();
                             listarCarrito();
                         }, 6000);
                         sectionCarrito.innerHTML = "";

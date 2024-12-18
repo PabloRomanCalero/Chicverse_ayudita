@@ -67,14 +67,6 @@ class ProductController extends Controller
         return response()->json(["eliminado"=>$product],201);
     }
 
-    public function updatestock(Request $request, Product $product)
-    {
-        $product->stock = $request->get('stock');
-        $product->save();
-
-        return response()->json($product,201);
-    }
-
     public function mediaProduct($product_id){
         $product = Product::where('id', $product_id)->get();
         return response()->json($product, 200);
