@@ -465,6 +465,8 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                     botonFinalizarPago.addEventListener('click', async (e) => {
                         sectionCarrito.innerHTML = "";
 
+                        let contenedorPago = document.createElement("div");
+                        contenedorPago.className = "contenedor-pagos";
                         let tituloMetodosPago = document.createElement('h2');
                         tituloMetodosPago.textContent = "Métodos de Pago";
                         tituloMetodosPago.className = "titulo-metodos-pago";
@@ -472,7 +474,7 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                         let contenedorMetodosPago = document.createElement('div');
                         contenedorMetodosPago.className = "contenedor-metodos-pago";
 
-                        let metodosPago = ["Contraremoblso", "PayPal", "Tarjeta"];
+                        let metodosPago = ["Contrareembolso", "Paypal", "Tarjeta"];
                         metodosPago.forEach(metodo => {
                             console.log("b");
                             let metodoPago = document.createElement('button');
@@ -491,7 +493,8 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                             contenedorMetodosPago.appendChild(metodoPago);
                         });
                         console.log("a");
-                        sectionCarrito.append(tituloMetodosPago, contenedorMetodosPago);
+                        contenedorPago.append(tituloMetodosPago, contenedorMetodosPago);
+                        sectionCarrito.append(contenedorPago);
                     });
 
                         /*fetch(`/api/orders/${orderId}`, {

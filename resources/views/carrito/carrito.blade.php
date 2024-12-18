@@ -12,6 +12,6 @@
 
     <script>
         var rutaDireccion = @json(route('formAddress'));
-        const publicPath = "{{ asset('img/metodosPago') }}";
+        var publicPath = "{{ asset('img/metodosPago') }}";
     </script>
 @endsection
