@@ -13,7 +13,7 @@ async function listarCarrito(){
         let contadorLinesLength = 0;
         let numCarrito = document.querySelector('#numCarrito');
         let numeroCarrito = 0;
-        let stockTotal = true;
+        var stockTotal = true;
         let precioFinal = 0;
         let listaProductos = [];
        console.log(orderLines.length)
@@ -96,7 +96,7 @@ async function listarCarrito(){
             articuloProducto.className="articulo--producto-carrito";
             img.className="img--producto-carrito";
             divNomStock.className = "div--nombreStock-carrito";
-            talla.className = "stock--producto-carrito";
+            talla.className = "talla--producto-carrito";
             stock.className = "stock--producto-carrito";
             divBotonCantidad.className = "div--botonCantidad-carrito";
             mas.className = "boton-mas-menos";
@@ -122,7 +122,7 @@ async function listarCarrito(){
             contadorLinesLength += 1;
             if(contadorLinesLength === orderLinesLength){
                 precioFinal = precioFinal.toFixed(2);
-                compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,listaProductos);
+                compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines);
                 eventoSumarRestar();
                 borrarLineOrder();
             }
@@ -168,11 +168,11 @@ function eventoSumarRestar(){
             } else if (target === '-') {
                 cantidad -= 1;
             }
-
             textCantidad.textContent = cantidad;
             textCantidad.dataset.cantidad = cantidad;
             textPrice.textContent = `Total: ${(price * cantidad).toFixed(2)} €`;
             textPrice.dataset.precio = price * cantidad; 
+            document.querySelector(".numCarrito").textContent = cantidad;
 
             let preciosProductosInd = document.querySelectorAll(".precioFinal--producto-carrito");
             let cantidadProductos = document.querySelectorAll(".cantidad-producto");
@@ -186,7 +186,7 @@ function eventoSumarRestar(){
             });
             document.querySelector('.precio-carrito-final').textContent = `Total: ${totalPrecios.toFixed(2)} €`;
             document.querySelector('.articulos-carrito-final').textContent = `Hay ${totalCantidad} articulos en tu carrito`;
-
+            document.querySelector('.articulos-carrito-final').dataset.cantFinal = totalCantidad;
             if(cantidad <= 0 ){
                 fetch(`api/orderLines/${orderLineId}`, {
                     method: "DELETE",
@@ -232,8 +232,8 @@ function borrarLineOrder(){
     })
 }
 
-async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,listaProductos){
-
+async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
+    
     let articuloCompraFinal = document.createElement('article');
     let botonFinalizarCompra = document.createElement('button');
     let articulosCarrito = document.createElement('p');
@@ -282,13 +282,40 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
     articuloCompraFinal.className = "articulo-carrito-final";
     botonFinalizarCompra.className = "boton-carrito-finalizar-compra";
     articulosCarrito.className = "articulos-carrito-final";
+    articulosCarrito.dataset.cantFinal = numeroCarrito;
     totalPrecio.className = "precio-carrito-final";
     
 
     articuloCompraFinal.append(botonFinalizarCompra, articulosCarrito, totalPrecio);
     sectionCarrito.append(articuloCompraFinal);
 
+    let articleFinalVentaProducto = document.createElement('article');
+    articleFinalVentaProducto.className = "articulo-final-venta";
+
     botonFinalizarCompra.addEventListener('click', async (e) => {
+
+        var listaProductos = [];
+        var precioFinal = 0;
+        let respOrderLines = await fetch('api/orderLines');
+        let orderLines2 = await respOrderLines.json();
+
+        orderLines2.forEach(async line => {
+            let resProducto = await fetch(`api/products/${line.product_id}`);
+            let producto = await resProducto.json();
+
+            let resTalla = await fetch(`/api/tallas/${line.product_id}/getStockOfTalla/${line.talla}`, {
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Content-Type': 'application/json',
+                },
+            });
+            let tallaData = await resTalla.json();
+            let precioTotalProductos = producto.price * line.quantity;
+            precioFinal += precioTotalProductos;
+            listaProductos.push({"name":producto.name,"cantidad":line.quantity,"precio":precioTotalProductos,"product_id":producto.id,"stock":tallaData.stock, "talla": tallaData.talla});
+        });
+
         let respUser = await fetch('/api/users/viewUser');
         let userAndAddress = await respUser.json();
         let user = userAndAddress[0];
@@ -299,13 +326,30 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
         console.log(edad);
         let finalizaCompraBoolean = true;
         let arrayErrores = [];
-        let articleFinalVentaProducto = document.createElement('article');
-        articleFinalVentaProducto.className = "articulo-final-venta";
+        
         articleFinalVentaProducto.innerHTML = "";
 
         if (edad < 18) {
             finalizaCompraBoolean = false;
             arrayErrores.push('Para comprar productos en la tienda, deberás tener al menos 18 años');
+        }
+
+        let cantidadProductos = document.querySelectorAll(".cantidad-producto");
+        let stockProductos = document.querySelectorAll(".stock--producto-carrito");
+
+        console.log(cantidadProductos);
+        console.log(stockProductos);
+        stockTotal = true;
+        if (cantidadProductos.length === stockProductos.length) {
+            for (let i = 0; i < cantidadProductos.length; i++) {
+                let cantidad = parseInt(cantidadProductos[i].dataset.cantidad);
+                let stock = parseInt(stockProductos[i].dataset.stock);
+                console.log(cantidad);
+                console.log(stock);
+                if (cantidad > stock) {
+                    stockTotal = false;
+                }
+            }
         }
         if (!stockTotal) {
             finalizaCompraBoolean = false;
@@ -316,7 +360,7 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
             arrayErrores.push('Para poder comprar deberá tener registrada una dirección.');
             direccion = false;
         }
-
+        console.log(stockTotal);
         if (finalizaCompraBoolean) {
             sectionCarrito.innerHTML = "";
             let tituloConfirmacionDireccion = document.createElement('h1');
@@ -331,6 +375,7 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
                 let botonConfirmarDireccion = document.createElement('button');
                 botonConfirmarDireccion.textContent = 'Confirmar';
                 botonConfirmarDireccion.value = address.id;
+                botonConfirmarDireccion.dataset.cp = address.cp;
                 botonConfirmarDireccion.className = "boton-confirmacion-direccion";
                 liDireccion.append(botonConfirmarDireccion);
                 listaDirecciones.append(liDireccion);
@@ -347,6 +392,7 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
 
                 botonDireccion.addEventListener('click', async (e) => {
                     let addresId = e.target.value;
+                    let cp = e.target.getAttribute("data-cp");
                     console.log(orderId, addresId);
                     sectionCarrito.innerHTML = "";
                     let articleVentaFinal = document.createElement('article');
@@ -374,37 +420,81 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
                         precioProducto.className = 'precio-producto-compra-final';
 
                         tituloProducto.textContent = producto.name;
+                        
                         cantidadProducto.textContent = `Cantidad: ${producto.cantidad}`;
                         console.log(precioFinal);
-                        precioProducto.textContent = `Precio: ${precioFinal} €`;
+                        precioProducto.textContent = `Precio: ${producto.precio} €`;
                         
                         divProducto.append(tituloProducto, cantidadProducto, precioProducto);
                         articleVentaFinal.append(divProducto);
                     });
                     
-
                     let precioEnvio = document.createElement('p');
                     let botonFinalizarPago = document.createElement('button');
                     botonFinalizarPago.className = 'boton-finalizar-pago';
                     botonFinalizarPago.textContent = 'Finalizar pago';
+                    
+                    function esCodigoPostalCanarias(cp) {
+                        let cpNumerico = parseInt(cp);
+                        return (cpNumerico >= 35000 && cpNumerico <= 35999) || (cpNumerico >= 38000 && cpNumerico <= 38999);
+                    }
+                    
+                    let precioEnvioBase = 3.95;
+                    
+                    if (esCodigoPostalCanarias(cp)) {
+                        precioEnvioBase += 15; 
+                    }
+
                     if (precioTotalFinal < 99.99) {
                         let anuncio = document.createElement('p');
                         console.log(precioFinal);
-                        precioTotalFinal = parseFloat(precioFinal) + 3.95;
+                        precioTotalFinal += precioEnvioBase;
                         console.log(precioTotalFinal);
                         anuncio.textContent = 'Si el total de la compra supera los 100€, el envio será gratuito';
-                        precioEnvio.textContent = 'Precio del envio: 3,95€';
+                        precioEnvio.textContent = `Precio del envio: ${precioEnvioBase.toFixed(2)}€`;
                         precioFinalProductos.textContent = `Total del pedido: ${precioTotalFinal.toFixed(2)} €`;
                         articleVentaFinal.append(anuncio);
                     } else {
                         precioEnvio.textContent = 'Precio del envio: 0€';
-                        precioFinalProductos.textContent = `Total del pedido: ${precioFinal} €`;
+                        precioFinalProductos.textContent = `Total del pedido: ${precioTotalFinal} €`;
                     }
                     articleVentaFinal.append(precioEnvio, precioFinalProductos, botonFinalizarPago);
                     sectionCarrito.append(articleVentaFinal);
+                    
 
                     botonFinalizarPago.addEventListener('click', async (e) => {
-                        fetch(`/api/orders/${orderId}`, {
+                        sectionCarrito.innerHTML = "";
+
+                        let tituloMetodosPago = document.createElement('h2');
+                        tituloMetodosPago.textContent = "Métodos de Pago";
+                        tituloMetodosPago.className = "titulo-metodos-pago";
+
+                        let contenedorMetodosPago = document.createElement('div');
+                        contenedorMetodosPago.className = "contenedor-metodos-pago";
+
+                        let metodosPago = ["Contraremoblso", "PayPal", "Tarjeta"];
+                        metodosPago.forEach(metodo => {
+                            console.log("b");
+                            let metodoPago = document.createElement('button');
+                            metodoPago.className = "metodo-pago";
+                            metodoPago.value = metodo;
+                        
+                            let spanMetodo = document.createElement("span");
+                            spanMetodo.textContent = metodo;
+                        
+                            let imgCard = document.createElement("img");
+                            let extension = metodo.includes('svg') ? 'svg' : 'png';
+                            imgCard.src = `${publicPath}/${metodo}.${extension}`;
+                            
+                            metodoPago.appendChild(imgCard);
+                            metodoPago.appendChild(spanMetodo);
+                            contenedorMetodosPago.appendChild(metodoPago);
+                        });
+                        console.log("a");
+                        sectionCarrito.append(tituloMetodosPago, contenedorMetodosPago);
+                    });
+
+                        /*fetch(`/api/orders/${orderId}`, {
                             method: "PUT",
                             headers: {
                                 'X-CSRF-TOKEN': token,
@@ -437,9 +527,8 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines,lista
                         tituloUltimo.className = "titulo-ultimo";
                         tituloUltimo.textContent = 'Esto es una simulación del pago total por el carrito y sus productos, finalizará aquí, gracias por su compra';
                         articleFinal.append(tituloUltimo)
-                        sectionCarrito.append(articleFinal);
+                        sectionCarrito.append(articleFinal);*/
 
-                    });
                 });
             }
 
