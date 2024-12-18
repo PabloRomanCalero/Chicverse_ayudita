@@ -7,11 +7,10 @@
 @section('content')
     @csrf   
     <section class="section-carrito" id="section-carrito">
-
     </section>
-
     <script>
         var rutaDireccion = @json(route('formAddress'));
         var publicPath = "{{ asset('img/metodosPago') }}";
     </script>
+    <script src="https://js.stripe.com/v3/"></script>
 @endsection

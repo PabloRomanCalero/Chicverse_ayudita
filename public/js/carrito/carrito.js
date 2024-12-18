@@ -296,11 +296,11 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
 
         var listaProductos = [];
         var precioFinal = 0;
-        let respOrderLines = await fetch('api/orderLines');
+        let respOrderLines = await fetch('/api/orderLines');
         let orderLines2 = await respOrderLines.json();
 
         orderLines2.forEach(async line => {
-            let resProducto = await fetch(`api/products/${line.product_id}`);
+            let resProducto = await fetch(`/api/products/${line.product_id}`);
             let producto = await resProducto.json();
 
             let resTalla = await fetch(`/api/tallas/${line.product_id}/getStockOfTalla/${line.talla}`, {
@@ -474,6 +474,8 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                         let contenedorMetodosPago = document.createElement('div');
                         contenedorMetodosPago.className = "contenedor-metodos-pago";
 
+                        let formPagosDiv = document.createElement("div");
+                        formPagosDiv.className = "formPagosDiv";
                         let metodosPago = ["Contrareembolso", "Paypal", "Tarjeta"];
                         metodosPago.forEach(metodo => {
                             console.log("b");
@@ -485,15 +487,76 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                             spanMetodo.textContent = metodo;
                         
                             let imgCard = document.createElement("img");
-                            let extension = metodo.includes('svg') ? 'svg' : 'png';
+                            let extension = 'png';
                             imgCard.src = `${publicPath}/${metodo}.${extension}`;
                             
                             metodoPago.appendChild(imgCard);
                             metodoPago.appendChild(spanMetodo);
                             contenedorMetodosPago.appendChild(metodoPago);
+
+                            
+                            metodoPago.addEventListener('click', async (e) => {
+                                formPagosDiv.innerHTML = "";
+                                if (metodoPago.value === 'Tarjeta') {
+                                    const stripe = Stripe("pk_test_51QLQyGHb4qcK0tmnXFKvnw4r5YyyEDiEOwh3VMxeDcFtGDARjlGVghf9bcR2o8VChwb9zIikaHz5oXubmPtyVrPT001rhZafg5");
+                                    formPagosDiv.innerHTML = `
+                                        <form id="payment-form">
+                                            <label for="name">Name</label>
+                                            <input type="text" id="name" placeholder="Ingrese nombre y apellidos">
+                                            <label for="email">Email</label>
+                                            <input type="email" id="email" placeholder="Ingrese el email">
+                                            <label for="card-element">Card</label>
+                                            <div id="card-element"></div>
+                                            <button id="payButton">Finalizar pago</button>
+                                        </form>
+                                        <div id="messages" role="alert"></div>
+                                    `;
+                            
+                                    var elements = stripe.elements();
+                                    var cardElement = elements.create('card');
+                                    cardElement.mount('#card-element');
+                            
+                                    const form = document.querySelector('#payment-form');
+                                    comprobar = await new Promise((resolve) => {
+                                        form.addEventListener('submit', async (e) => {
+                                            e.preventDefault();
+                                            const clientSecret = await fetch('https://api.stripe.com/v1/payment_intents', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Authorization': 'Bearer sk_test_51QLQyGHb4qcK0tmngr3DgsFrUgGjUQ0Gc4xkc3wAtHqtEnRVtMgcXxFsAiUiFU2xlEyeUi0PiOtRR53YxCy08l2y00J3SZXQkn',
+                                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                                },
+                                                body: new URLSearchParams({
+                                                    'amount': (precioTotalFinal * 100),
+                                                    'currency': 'eur',
+                                                    'automatic_payment_methods[enabled]': 'true'
+                                                })
+                                            })
+                                                .then(response => response.json())
+                                                .then(data => data.client_secret);
+                            
+                                            const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                                                payment_method: {
+                                                    card: cardElement,
+                                                    billing_details: {
+                                                        name: document.querySelector('#name').value,
+                                                        email: document.querySelector('#email').value,
+                                                    }
+                                                }
+                                            });
+                            
+                                            if (paymentIntent.status === "succeeded") {
+                                                resolve(true); 
+                                            } else {
+                                                resolve(false); 
+                                            }
+                                        });
+                                    });
+                                }
+                            });
                         });
                         console.log("a");
-                        contenedorPago.append(tituloMetodosPago, contenedorMetodosPago);
+                        contenedorPago.append(tituloMetodosPago, contenedorMetodosPago, formPagosDiv);
                         sectionCarrito.append(contenedorPago);
                     });
 
