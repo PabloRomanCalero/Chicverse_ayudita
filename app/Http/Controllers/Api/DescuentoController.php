@@ -61,11 +61,11 @@ class DescuentoController extends Controller
             $likes = $medio->likes;
             $descuentoPorcentaje = 0;
 
-            if ($likes >= 5000) {
+            if ($likes == 5000) {
                 $descuentoPorcentaje = 0.15;
-            } elseif ($likes >= 1500) {
+            } elseif ($likes == 1500) {
                 $descuentoPorcentaje = 0.10;
-            } elseif ($likes >= 1) {//esta en 1 para poder ver su funcionamiento facilmente, podriamos ponerlo a los 150 likes
+            } elseif ($likes == 1) {//esta en 1 para poder ver su funcionamiento facilmente, podriamos ponerlo a los 150 likes
                 $descuentoPorcentaje = 0.05;
             }
 

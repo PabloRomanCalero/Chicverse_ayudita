@@ -9,7 +9,6 @@
     margin-top: 8em;
 }
 
-
 h1 {
     text-align: center;
     margin-bottom: 20px;
@@ -40,6 +39,7 @@ button {
 .inputFileWrapper {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -106,4 +106,52 @@ button[type="submit"] {
 
 .resultadoP:hover {
     background-color: whitesmoke;
+}
+
+.progress-container {
+    width: 100%;
+    height: 30px;
+    background-color: #f3f3f3;
+    border: 2px solid #ddd;
+    border-radius: 50px;
+    overflow: hidden;
+    margin-top: 10px;
+    position: relative;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    transition: width 0.4s ease-in-out;
+}
+
+.progress-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    border: 2px dashed rgba(0, 149, 246, 0.4);
+    animation: pulse-border 1.5s infinite;
+}
+
+@keyframes pulse-border {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
 }

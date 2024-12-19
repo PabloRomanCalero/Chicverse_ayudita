@@ -18,6 +18,71 @@ body {
     margin-top: 1em;
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    background-color: #0095f6;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+    background-color: #0072cc;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    min-width: 200px;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+}
+
+.dropdown-menu li {
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.dropdown-menu li:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu a,
+.dropdown-button {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover,
+.dropdown-button:hover {
+    background-color: #f9f9f9;
+    color: #0072cc;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
 .profile-info {
     margin-top: 2.5em;
     display: flex;
@@ -87,47 +152,24 @@ body {
     margin-top: 20px;
 }
 
-.botonForm{
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    background-color: #0095f6;
-    color: #fff;
-    font-size: 1em;
-    text-decoration: none;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.botonForm:hover {
-    background-color: #0056b3;
-    cursor: pointer;
-}
-
 .deslogearse{
     margin-right: 10px;
 }
 
-.deslogearse > button{
-    background-color: red;
+.botonForm:hover,
+a.botonForm:hover {
+    background-color: #0056b3;
+    cursor: pointer;
 }
 
-.deslogearse > button:hover{
-    background-color: rgb(198, 10, 10);
-}
-
-a.botonForm{
+a.botonForm {
     margin-bottom: 16px;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.deleteUserForm > button{
-    background-color: red;
-}
-
-.deleteUserForm > button:hover{
-    background-color: rgb(198, 10, 10);
+#botonFormAddress {
+    margin-left: 0;
 }
 
 .media-container {

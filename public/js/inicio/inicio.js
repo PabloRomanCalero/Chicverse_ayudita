@@ -103,7 +103,6 @@ listarMedia = async () => {
         const descriptionElement = document.createElement('p');
         descriptionElement.textContent = media.description;
 
-        // Botón de "Me gusta"
         const likeButton = document.createElement('button');
         likeButton.innerHTML = '<i class="fas fa-heart"></i>';
         likeButton.classList.add('like-button');
@@ -143,7 +142,6 @@ listarMedia = async () => {
         const likesElement = document.createElement('p');
         likesElement.innerHTML = `<span class="like-count">${media.likes}</span>`;
 
-        //Comments elements
         const commentButton = document.createElement('button');
         commentButton.innerHTML = '<i class="fas fa-comment"></i>';
         commentButton.classList.add('comment-button');

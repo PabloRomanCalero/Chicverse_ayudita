@@ -4,7 +4,7 @@
 
 @section('content')
     <section class="section-media">
-        <h1>Subir Contenido Multimedia</h1>
+        <h1>Subir Publicación</h1>
         <form action="{{route('uploadMedia')}}" method="post" class="formMedia" enctype="multipart/form-data">
             @csrf
 
@@ -14,6 +14,10 @@
             <div class="inputFileWrapper">
                 <label class="botonForm" for="file">Cargar media</label>
                 <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .mp4, .mov" required>
+
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar">0%</div>
+                </div>
             </div>
 
             <div class="containerBuscador">
@@ -22,7 +26,7 @@
                 <div class="resultadosDiv" id="resultadosDiv"></div>
             </div>
         
-            <button class="botonForm" type="submit">Subir Contenido</button>
+            <button class="botonForm" type="submit" id="botonForm" disabled>Subir Contenido</button>
         </form>
     </section>
 @endsection
