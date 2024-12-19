@@ -70,6 +70,7 @@ class OrderController extends Controller
         $order->status = 'pagado';
         $order->address_id = $request->get('address_id');
         $order->totalPrice = $request->get('totalPrice');
+        $order->type_payment = $request->get('type_payment');
         $order->save();
         return response()->json($order, 200);
     }

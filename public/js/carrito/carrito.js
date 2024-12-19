@@ -496,8 +496,11 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
 
                             
                             metodoPago.addEventListener('click', async (e) => {
+                                let type_payment = metodoPago.value;
+                                let comprobar = false;
                                 formPagosDiv.innerHTML = "";
-                                if (metodoPago.value === 'Tarjeta') {
+
+                                if (type_payment === 'Tarjeta') {
                                     const stripe = Stripe("pk_test_51QLQyGHb4qcK0tmnXFKvnw4r5YyyEDiEOwh3VMxeDcFtGDARjlGVghf9bcR2o8VChwb9zIikaHz5oXubmPtyVrPT001rhZafg5");
                                     formPagosDiv.innerHTML = `
                                         <form id="payment-form">
@@ -552,7 +555,76 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                                             }
                                         });
                                     });
+                                }else if (type_payment === "Paypal") {
+                                    let paypalButton = document.createElement("div");
+                                    paypalButton.id = "paypal-button-container";
+                                    formPagosDiv.appendChild(paypalButton);
+                            
+                                    comprobar = await new Promise((resolve) => {
+                                        paypal.Buttons({
+                                            createOrder: (data, actions) => {
+                                                return actions.order.create({
+                                                    purchase_units: [{
+                                                        amount: {
+                                                            value: precioTotalFinal,
+                                                        }
+                                                    }]
+                                                });
+                                            },
+                            
+                                            onApprove: (data, actions) => {
+                                                return actions.order.capture().then(details => {
+                                                    alert('Pago completado por ' + details.payer.name.given_name);
+                                                    console.log('Detalles del pago:', details);
+                                                    resolve(true); 
+                                                });
+                                            },
+                            
+                                            onError: (err) => {
+                                                console.error('Error en el pago:', err);
+                                                resolve(false); 
+                                            }
+                                        }).render('#paypal-button-container');
+                                    });
+                                }else if(type_payment === "Contrareembolso"){
+                                    comprobar = true;
                                 }
+                                if(comprobar) {
+                                    fetch(`/api/orders/${orderId}`, {
+                                        method: "PUT",
+                                        headers: {
+                                            'X-CSRF-TOKEN': token,
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ "address_id": addresId, "totalPrice": precioTotalFinal, "type_payment": type_payment }),
+                                    });
+            
+                                    listaProductos.forEach(async (producto) => {
+                                        console.log(producto.talla);
+                                        let stock = producto.stock - producto.cantidad;
+                                        console.log(stock);
+                                        fetch('/api/tallas/stockUpdate', {
+                                            method: "PUT",
+                                            headers: {
+                                                'X-CSRF-TOKEN': token,
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ "stock": stock, "talla": producto.talla, "product_id": producto.product_id }),
+                                        });
+                                    });
+                                    document.querySelector(".numCarrito").textContent = "0";
+                                    setTimeout(() => {
+                                        listarCarrito();
+                                    }, 6000);
+                                    sectionCarrito.innerHTML = "";
+                                    let articleFinal = document.createElement('article');
+                                    articleFinal.className = "article-final";
+                                    let tituloUltimo = document.createElement('h1');
+                                    tituloUltimo.className = "titulo-ultimo";
+                                    tituloUltimo.textContent = 'Esto es una simulación del pago total por el carrito y sus productos, finalizará aquí, gracias por su compra';
+                                    articleFinal.append(tituloUltimo)
+                                    sectionCarrito.append(articleFinal);
+                                }    
                             });
                         });
                         console.log("a");
@@ -560,40 +632,8 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                         sectionCarrito.append(contenedorPago);
                     });
 
-                        /*fetch(`/api/orders/${orderId}`, {
-                            method: "PUT",
-                            headers: {
-                                'X-CSRF-TOKEN': token,
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ "address_id": addresId, "totalPrice": precioTotalFinal }),
-                        });
-
-                        listaProductos.forEach(async (producto) => {
-                            console.log(producto.talla);
-                            let stock = producto.stock - producto.cantidad;
-                            console.log(stock);
-                            fetch('/api/tallas/stockUpdate', {
-                                method: "PUT",
-                                headers: {
-                                    'X-CSRF-TOKEN': token,
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ "stock": stock, "talla": producto.talla, "product_id": producto.product_id }),
-                            });
-                        });
-                        document.querySelector(".numCarrito").textContent = "0";
-                        setTimeout(() => {
-                            listarCarrito();
-                        }, 6000);
-                        sectionCarrito.innerHTML = "";
-                        let articleFinal = document.createElement('article');
-                        articleFinal.className = "article-final";
-                        let tituloUltimo = document.createElement('h1');
-                        tituloUltimo.className = "titulo-ultimo";
-                        tituloUltimo.textContent = 'Esto es una simulación del pago total por el carrito y sus productos, finalizará aquí, gracias por su compra';
-                        articleFinal.append(tituloUltimo)
-                        sectionCarrito.append(articleFinal);*/
+                        
+                        
 
                 });
             }

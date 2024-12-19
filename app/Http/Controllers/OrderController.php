@@ -67,7 +67,7 @@ class OrderController extends Controller
     {
         $orders = Order::with('orderLines.product')
         ->where('user_id', Auth::id()) 
-        //->where('status', '!=', 'carrito') 
+        ->where('status', '!=', 'carrito') 
         ->get();
         return view('pedidos.pedidos', compact('orders'));
     }

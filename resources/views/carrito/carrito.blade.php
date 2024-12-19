@@ -13,4 +13,6 @@
         var publicPath = "{{ asset('img/metodosPago') }}";
     </script>
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://sandbox.paypal.com/sdk/js?client-id=AQicOrbA1lWUzcNVRIod-BAfgvDWdDes6JLNn6Q7NlipMPV1da9z9wl8Dgb9OYPfDYcjfZ5zpCzTpl5y&currency=EUR"></script>
+
 @endsection
