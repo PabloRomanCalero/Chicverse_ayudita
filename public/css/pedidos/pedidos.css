@@ -25,15 +25,15 @@ main {
     margin-bottom: 30px;
 }
 
-.card {
+.cardContainer {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    margin-bottom: 2.5em;
 }
 
-.card-header {
+.cardHeader {
     background-color: #0095f6;
     color: #fff;
     padding: 15px;
@@ -42,17 +42,17 @@ main {
     font-weight: bold;
 }
 
-.card-body {
+.cardBody {
     padding: 20px;
 }
 
-.card-body p {
+.cardBody p {
     font-size: 0.9em;
-    color: #555;
+    color: #333;
     margin: 5px 0;
 }
 
-.card-body h5 {
+.cardBody h5 {
     font-size: 1.3em;
     color: #333;
     margin-top: 20px;
@@ -78,13 +78,9 @@ main {
 }
 
 .table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #eee;
 }
 
 .table tbody tr td {
-    color: #555;
-}
-
-.mb-4 {
-    margin-bottom: 1.5rem;
+    color: #333;
 }

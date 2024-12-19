@@ -90,6 +90,7 @@ main {
     border-radius: 5px;
     border: 1px solid #ddd;
     font-size: 1em;
+    cursor: pointer;
 }
   
 

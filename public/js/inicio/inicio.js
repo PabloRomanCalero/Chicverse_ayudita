@@ -15,7 +15,7 @@ async function searchUsers() {
         let usersFiltrados = usersData.filter(user => (user.username).toLowerCase().startsWith(filtroU));
         if (usersFiltrados.length > 0) {
             resultadosUsersDiv.style.display = "block";    
-            //vaciamos el div del autocomplete
+
             resultadosUsersDiv.innerHTML="";
             usersFiltrados.forEach(user => {
                 let resultadoU = document.createElement("div");
@@ -54,9 +54,9 @@ listarMedia = async () => {
     mediaContainer.innerHTML = '';
 
     let likedMedia = JSON.parse(localStorage.getItem('likedMedia')) || [];
-
-    /* likedMedia = [];
-    localStorage.setItem('likedMedia', JSON.stringify(likedMedia)); */ 
+    console.log(likedMedia);
+    /*likedMedia = [];
+    localStorage.setItem('likedMedia', JSON.stringify(likedMedia));  */
 
     let respMedia = await fetch('api/media/exceptMedia');
     let mediaJson = await respMedia.json();

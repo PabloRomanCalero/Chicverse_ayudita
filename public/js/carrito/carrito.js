@@ -184,9 +184,26 @@ function eventoSumarRestar(){
             cantidadProductos.forEach(cantProducto =>{
                 totalCantidad += parseInt(cantProducto.getAttribute("data-cantidad"));
             });
-            document.querySelector('.precio-carrito-final').textContent = `Total: ${totalPrecios.toFixed(2)} €`;
+
+            console.log(totalPrecios);
+            let selectDescuentos = document.querySelector('.select-descuentos');
+            let descuento = 0;
+            if(selectDescuentos != null){
+                descuento = document.querySelector('.select-descuentos').value;
+                selectDescuentos.dataset.precioPedidoNoDesc = totalPrecios.toFixed(2);
+                selectDescuentos.dataset.precioPedido = (totalPrecios-(totalPrecios * descuento)).toFixed(2);
+            }
+            
+            
+            if(descuento != 0){
+                console.log(totalPrecios);
+                document.querySelector('.precio-carrito-final').textContent = `Total: ${(totalPrecios-(totalPrecios * descuento)).toFixed(2)} €`;
+            }else{
+                document.querySelector('.precio-carrito-final').textContent = `Total: ${totalPrecios.toFixed(2)} €`;
+            }
             document.querySelector('.articulos-carrito-final').textContent = `Hay ${totalCantidad} articulos en tu carrito`;
             document.querySelector('.articulos-carrito-final').dataset.cantFinal = totalCantidad;
+
             if(cantidad <= 0 ){
                 fetch(`api/orderLines/${orderLineId}`, {
                     method: "DELETE",
@@ -232,7 +249,7 @@ function borrarLineOrder(){
     })
 }
 
-async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
+async function compraFinal(precioFinal,numeroCarrito,stockTotal){
     
     let articuloCompraFinal = document.createElement('article');
     let botonFinalizarCompra = document.createElement('button');
@@ -242,10 +259,12 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
     let descuentosUser = await fetch('/api/descuentos');
     let descuentos = await descuentosUser.json();
     let precioSinDescuento = precioFinal;
+    var precioDescuentoFinal = 0;
     console.log(descuentos);
     if(descuentos.length > 0){
         let selectDescuentos = document.createElement('select');
         selectDescuentos.className = 'select-descuentos';
+        selectDescuentos.dataset.precioPedido = precioSinDescuento;
 
         let optionDefault = document.createElement('option');
         optionDefault.text = 'Selecciona un descuento';
@@ -261,12 +280,15 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
 
         selectDescuentos.addEventListener('change', (e) => {
             let descuentoSeleccionado = e.target.value;
-            
+            let precioPedido = document.querySelector('.select-descuentos').getAttribute('data-precio-pedido');
             if (descuentoSeleccionado) {
-                precioFinal = (precioSinDescuento - (precioSinDescuento * descuentoSeleccionado)).toFixed(2);
-                console.log(precioFinal);
+                document.querySelector('.select-descuentos').dataset.precioPedido = (precioPedido - (precioPedido * descuentoSeleccionado)).toFixed(2)
+                precioFinal = document.querySelector('.select-descuentos').getAttribute('data-precio-pedido');
+                precioDescuentoFinal = precioFinal;
             } else{
-                precioFinal = precioSinDescuento;
+                precioFinal = document.querySelector('.select-descuentos').getAttribute('data-precio-pedido-no-desc');
+                document.querySelector('.select-descuentos').dataset.precioPedido = precioFinal;
+                precioDescuentoFinal = 0;
             }
             
             totalPrecio.textContent = `Total: ${precioFinal} €`;
@@ -293,7 +315,10 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
     articleFinalVentaProducto.className = "articulo-final-venta";
 
     botonFinalizarCompra.addEventListener('click', async (e) => {
-
+        let precioPedido = document.querySelector('.select-descuentos');
+        if(precioPedido != null){
+            precioDescuentoFinal = document.querySelector('.select-descuentos').getAttribute('data-precio-pedido');
+        }
         var listaProductos = [];
         var precioFinal = 0;
         let respOrderLines = await fetch('/api/orderLines');
@@ -448,21 +473,35 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                     if (precioTotalFinal < 99.99) {
                         let anuncio = document.createElement('p');
                         console.log(precioFinal);
-                        precioTotalFinal += precioEnvioBase;
+                        if(precioDescuentoFinal == 0){
+                            precioTotalFinal += precioEnvioBase;
+                        }else {
+                            console.log("a");
+                            console.log(precioDescuentoFinal);
+                            precioDescuentoFinal = parseFloat(precioDescuentoFinal) + parseFloat(precioEnvioBase);
+                            console.log(precioDescuentoFinal);
+                        }
                         console.log(precioTotalFinal);
                         anuncio.textContent = 'Si el total de la compra supera los 100€, el envio será gratuito';
                         precioEnvio.textContent = `Precio del envio: ${precioEnvioBase.toFixed(2)}€`;
-                        precioFinalProductos.textContent = `Total del pedido: ${precioTotalFinal.toFixed(2)} €`;
                         articleVentaFinal.append(anuncio);
                     } else {
                         precioEnvio.textContent = 'Precio del envio: 0€';
-                        precioFinalProductos.textContent = `Total del pedido: ${precioTotalFinal} €`;
                     }
-                    articleVentaFinal.append(precioEnvio, precioFinalProductos, botonFinalizarPago);
-                    sectionCarrito.append(articleVentaFinal);
+                    if(precioDescuentoFinal == 0){
+                        precioFinalProductos.textContent = `Total del pedido: ${precioTotalFinal.toFixed(2)} €`;
+                    } else{
+                        precioFinalProductos.textContent = `Total del pedido: ${parseFloat(precioDescuentoFinal).toFixed(2)} €`;
+                        precioTotalFinal = precioDescuentoFinal;
+                    }
                     
 
+                    articleVentaFinal.append(precioEnvio, precioFinalProductos, botonFinalizarPago);
+                    sectionCarrito.append(articleVentaFinal);
+                
+
                     botonFinalizarPago.addEventListener('click', async (e) => {
+                        console.log(precioTotalFinal);
                         sectionCarrito.innerHTML = "";
 
                         let contenedorPago = document.createElement("div");
@@ -596,7 +635,7 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                                             'X-CSRF-TOKEN': token,
                                             'Content-Type': 'application/json',
                                         },
-                                        body: JSON.stringify({ "address_id": addresId, "totalPrice": precioTotalFinal, "type_payment": type_payment }),
+                                        body: JSON.stringify({ "address_id": addresId, "totalPrice": precioTotalFinal, "type_payment": type_payment}),
                                     });
             
                                     listaProductos.forEach(async (producto) => {
@@ -631,13 +670,8 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal,orderLines){
                         contenedorPago.append(tituloMetodosPago, contenedorMetodosPago, formPagosDiv);
                         sectionCarrito.append(contenedorPago);
                     });
-
-                        
-                        
-
                 });
             }
-
         } else {
             let listaErrores = document.createElement('ul');
             listaErrores.className = "lista-errores-carrito";
