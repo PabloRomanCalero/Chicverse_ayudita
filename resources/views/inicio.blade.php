@@ -6,9 +6,11 @@
     @csrf
     <div id="content-wrapper">
         <div class="containerScroll" id="containerScroll">
-            <div class="containerMedia" id="containerMedia">     
+            <div class="containerMedia" id="containerMedia">
             </div>
         </div>
+
+    <div class="containerSearchandRecomend">
         <div class="searchAndRecomended">
             <div class="search">
                 <form class="searchedUserForm" id="searchedUserForm" action="{{ route('searchedUser') }}" method="POST">
@@ -32,6 +34,7 @@
                 <span class="titleUsersRecomended">Usuarios recomendados</span>
             </div>
         </div>
-        
+    </div>
+
     </div>
 @endsection
