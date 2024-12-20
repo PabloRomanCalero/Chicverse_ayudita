@@ -16,8 +16,7 @@
                 <li>
                     <form method="POST" action="{{ route('logout') }}" class="deslogearse">
                         @csrf
-                        <img src=""/>
-                        <button type="submit" class="dropdown-button">Salir</button>
+                        <button type="submit" class="dropdown-button"><img src=""/>Salir</button>
                     </form>
                 </li>
                 <li>

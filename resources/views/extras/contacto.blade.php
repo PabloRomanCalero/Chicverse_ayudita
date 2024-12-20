@@ -26,7 +26,7 @@
 
                 <input type="submit" value="Enviar">
 
-                <input type="hidden" name="_next" value="192.168.1.138:8000">
+                <input type="hidden" name="_next" value="192.168.1.151:8000">
                 <input type="hidden" name="_cc" value=" infochicverse@gmail.com ">
                 <input type="hidden" name="_autoresponse" value="Gracias por confiar en nosotros, te dejamos aquí la copia de tu mensaje">
             </fieldset>

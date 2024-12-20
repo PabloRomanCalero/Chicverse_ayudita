@@ -1,11 +1,11 @@
 main {
     color: #333;
+    margin-left: 320px !important;
 }
 
 .section-politica-privacidades {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
 }
 
 .article-politica-privacidades {
@@ -29,7 +29,6 @@ main {
 }
 
 .titulo-extra {
-    margin-top: 2em;
     font-size: 3em;
     text-align: center;
     border-bottom: 2px solid rgb(88, 87, 87);

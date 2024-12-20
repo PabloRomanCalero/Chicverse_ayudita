@@ -35,7 +35,6 @@
 }
 
 .article-contacto legend {
-    font-family: 'MontserratBold';
     font-size: 2em;
     color: #333;
     text-align: center;
@@ -43,7 +42,6 @@
 }
 
 .article-contacto label {
-    font-family: 'MontserratBold';
     font-size: 1.3em;
     color: #333;
     margin: 1em 0;

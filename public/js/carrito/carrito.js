@@ -265,6 +265,7 @@ async function compraFinal(precioFinal,numeroCarrito,stockTotal){
         let selectDescuentos = document.createElement('select');
         selectDescuentos.className = 'select-descuentos';
         selectDescuentos.dataset.precioPedido = precioSinDescuento;
+        selectDescuentos.dataset.precioPedidoNoDesc = precioSinDescuento;
 
         let optionDefault = document.createElement('option');
         optionDefault.text = 'Selecciona un descuento';

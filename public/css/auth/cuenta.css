@@ -19,9 +19,11 @@ body {
     position: relative;
 }
 
+
 .dropdown {
     position: relative;
     display: inline-block;
+    text-align: center;
 }
 
 .dropdown-toggle {
@@ -33,18 +35,19 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .dropdown-toggle:hover {
     background-color: #0072cc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown-menu {
     display: none;
     position: absolute;
-    left: 0;
-    top: 100%;
+    left: 50%; 
+    transform: translateX(-50%);
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -53,10 +56,11 @@ body {
     min-width: 200px;
     list-style: none;
     padding: 0;
-    margin: 10px 0 0;
+    margin: 0;
 }
 
 .dropdown-menu li {
+    width: 100%;
     border-bottom: 1px solid #f3f3f3;
 }
 
@@ -65,19 +69,39 @@ body {
 }
 
 .dropdown-menu a,
-.dropdown-button {
-    display: block;
+.dropdown-menu button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
     padding: 10px 15px;
     color: #333;
     text-decoration: none;
     font-size: 0.9rem;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 8px;
+}
+
+.dropdown-menu img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
 }
 
 .dropdown-menu a:hover,
-.dropdown-button:hover {
+.dropdown-menu button:hover {
     background-color: #f9f9f9;
     color: #0072cc;
+}
+
+.dropdown-menu li form {
+    display: flex;
+    align-items: center;
+    margin-block-end: 0px;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -152,10 +176,6 @@ body {
     flex-direction: row;
     align-items: center;
     margin-top: 20px;
-}
-
-.deslogearse{
-    margin-right: 10px;
 }
 
 .botonForm:hover,

@@ -145,9 +145,14 @@ listarMedia = async () => {
     mediaContainer.innerHTML = ''; 
 
     let likedMedia = JSON.parse(localStorage.getItem('likedMedia')) || [];
+    console.log(likedMedia);
 
     let respMedia = await fetch(`api/media/mediaSearchedUser/${userId}`);
     let mediaJson = await respMedia.json();
+
+    let respUserLogged = await fetch(`api/users/getUserIdLogged`);
+    let userLogged = await respUserLogged.json();
+    console.log(userLogged);
 
     const h2Publicaciones = document.createElement('h2');
     h2Publicaciones.innerHTML = 'Publicaciones';
@@ -185,8 +190,9 @@ listarMedia = async () => {
         likeButton.classList.add('like-button');
 
         likeButton.onclick = async function () {
-            
-            if (!likedMedia.includes(media.id)) {//Si no está en likedMedia se hace y se pushea el id para no poder hacerlo otra vez.  
+            console.log(media.id);
+            console.log(media.user_id);
+            if (userLogged != 'not_logged' && !likedMedia.includes(`${media.id}-${media.user_id}-${userLogged}`)) {
                 let likes = media.likes + 1;
                 let likesResp = await fetch('api/media/likesByMedia', {
                     method: 'PUT',
@@ -200,9 +206,10 @@ listarMedia = async () => {
                 const likeCount = this.parentElement.querySelector('.like-count');
                 if (likesResp.status === 200) {
                     likeCount.textContent = parseInt(likeCount.textContent) + 1;
-                    likedMedia.push(media.id);
+                    likedMedia.push(`${media.id}-${media.user_id}-${userLogged}`);
                     localStorage.setItem('likedMedia', JSON.stringify(likedMedia));
 
+                    $userId = media.user_id;
                     await fetch('api/crearDescuento', {
                         method: 'POST',
                         headers: {
