@@ -30,7 +30,7 @@
                     <form method="POST" action="{{route('deleteUser')}}" id="deleteUserForm" class="deleteUserForm">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="dropdown-button">Eliminar Cuenta</button>
+                        <button type="submit" class="dropdown-button"><img src="https://cdn-icons-png.flaticon.com/512/58/58326.png"/>Eliminar Cuenta</button>
                     </form>
                 </li>
                 <li>
