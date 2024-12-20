@@ -56,11 +56,15 @@ listarMedia = async () => {
     let likedMedia = JSON.parse(localStorage.getItem('likedMedia')) || [];
     console.log(likedMedia);
     /*likedMedia = [];
-    localStorage.setItem('likedMedia', JSON.stringify(likedMedia));  */
+    localStorage.setItem('likedMedia', JSON.stringify(likedMedia)); */
 
     let respMedia = await fetch('api/media/exceptMedia');
     let mediaJson = await respMedia.json();
     console.log(mediaJson);
+
+    let respUserLogged = await fetch(`api/users/getUserIdLogged`);
+    let userLogged = await respUserLogged.json();
+    console.log(userLogged);
 
     await mediaJson.forEach(async (media) => {
         let userMediaData = await fetch(`api/users/viewUserMedia/${media.user_id}`)
@@ -108,8 +112,9 @@ listarMedia = async () => {
         likeButton.classList.add('like-button');
 
         likeButton.onclick = async function () {
-            
-            if (!likedMedia.includes(media.id)) {//Si no está en likedMedia se hace y se pushea el id para no poder hacerlo otra vez.  
+            console.log(media.id);
+            console.log(media.user_id);
+            if (userLogged != 'not_logged' && !likedMedia.includes(`${media.id}-${media.user_id}-${userLogged}`)) {
                 let likes = media.likes + 1;
                 let likesResp = await fetch('api/media/likesByMedia', {
                     method: 'PUT',
@@ -123,7 +128,7 @@ listarMedia = async () => {
                 const likeCount = this.parentElement.querySelector('.like-count');
                 if (likesResp.status === 200) {
                     likeCount.textContent = parseInt(likeCount.textContent) + 1;
-                    likedMedia.push(media.id);
+                    likedMedia.push(`${media.id}-${media.user_id}-${userLogged}`);
                     localStorage.setItem('likedMedia', JSON.stringify(likedMedia));
 
                     $userId = media.user_id;
@@ -152,12 +157,9 @@ listarMedia = async () => {
         const productName = document.createElement('p');
         productName.innerHTML = `<strong>Prenda:</strong> ${product.name}`;
 
-        //Div comentarios y formComentarios
-
         const divComments = document.createElement('div');
         divComments.classList.add('divComments')
 
-        //Sacar comentarios del media y crear divs dinamicos
         let commentsMedia = await fetch('api/comments/mediaComments', {
             method: 'POST',
             headers: {
@@ -210,12 +212,10 @@ listarMedia = async () => {
         divComments.appendChild(input);
         divComments.appendChild(button);
 
-        //Formulario de comentarios
         commentButton.onclick = function () {
             divComments.style.display = 'block';
         };
 
-        //Crear commentario cuando se envia el input
         input.addEventListener('keypress', async function (event) {
             if (event.key === 'Enter') {
                 await fetch('api/comments/createComment', {
