@@ -16,6 +16,7 @@ body {
     width: 100%;
     height: max-content;
     margin-top: 1em;
+    position: relative;
 }
 
 .dropdown {
@@ -104,6 +105,7 @@ body {
     position: relative;
     width: 150px;
     height: 150px;
+    cursor: pointer;
 }
 
 .profile-img {
@@ -208,7 +210,7 @@ a.botonForm {
     width: 38%;
     height: fit-content;
     padding-bottom: 13px;
-    padding-top: 3%;
+    padding-top: 2%;
 }
 
 .divVideoImagen{
@@ -365,6 +367,91 @@ a.botonForm {
 }
 
 ::-webkit-scrollbar {
+    display: none;
+}
+
+.profileModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); 
+    visibility: hidden;
+    transition: visibility 0s, opacity 0.2s ease-in-out;
+    padding-left: 300px;
+}
+
+.modalContent {
+    background-color: white;
+    color: #333;
+    border-radius: 10px;
+    width: 90%; 
+    max-width: 350px; 
+    text-align: center;
+    overflow: hidden; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.modalContent h3 {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px 0;
+    margin-block-end: 0px;
+    margin-block-start: 0px;
+    border-bottom: 1px solid #C7C7C7; 
+}
+
+#profilePhotoForm2 {
+    margin-block-end: 0px;
+}
+
+.modalButton {
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    color: #3897f0; 
+    cursor: pointer;
+    border-bottom: 1px solid #C7C7C7; 
+    transition: background-color 0.2s ease;
+}
+
+#deletePhoto {
+    color: #ed4956;
+}
+
+.modalButton:last-child {
+    border: none; 
+    color: #333; 
+}
+
+.modalButton:hover {
+    background-color: #f0f0f0; 
+}
+
+.modalButton.cancel {
+    color: white;
+    font-weight: normal;
+    background-color: transparent;
+    border: none;
+    padding: 15px 0;
+}
+
+.profileModal.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.hidden {
     display: none;
 }
 

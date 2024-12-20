@@ -1,6 +1,7 @@
 const sectionProfile = document.querySelector('#section-profile');
 const profileInfo = document.querySelector('#profile-info');
 const mediaContainer = document.querySelector('#media-container');
+
 let token = document.querySelector('[name=_token]').value;
 
 listarUsuario = async () => {
@@ -49,7 +50,7 @@ listarUsuario = async () => {
 
     profileInfo.appendChild(profilePicture);
     profileInfo.appendChild(profileDetails);
-    
+
     listarMedia();
 }
 
@@ -90,7 +91,6 @@ listarMedia = async () => {
         const descriptionElement = document.createElement('p');
         descriptionElement.textContent = media.description;
 
-        // Botón de "Me gusta"
         const likeButton = document.createElement('button');
         likeButton.innerHTML = '<i class="fas fa-heart"></i>';
         likeButton.classList.add('like-button');
@@ -98,7 +98,6 @@ listarMedia = async () => {
         const likesElement = document.createElement('p');
         likesElement.innerHTML = `<span class="like-count">${media.likes}</span>`;
 
-        //Comments elements
         const commentButton = document.createElement('button');
         commentButton.innerHTML = '<i class="fas fa-comment"></i>';
         commentButton.classList.add('comment-button');
@@ -109,11 +108,9 @@ listarMedia = async () => {
         const productName = document.createElement('p');
         productName.innerHTML = `<strong>Prenda:</strong> ${product.name}`;
 
-        //Div comentarios y formComentarios
         const divComments = document.createElement('div');
         divComments.classList.add('divComments')
 
-        //Sacar comentarios del media y crear divs dinamicos
         let commentsMedia = await fetch('api/comments/mediaComments', {
             method: 'POST',
             headers: {
@@ -153,7 +150,6 @@ listarMedia = async () => {
             });
         }
 
-        //Formulario de comentarios
         commentButton.onclick = function () {
             divComments.style.display = 'block';
         };
@@ -195,7 +191,46 @@ document.getElementById('profile_image').addEventListener('change', function() {
     document.getElementById('profilePhotoForm').submit();
 });
 
-
 listarUsuario();
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const profileModal = document.getElementById('profileModal');
+    const profileImageInput = document.getElementById('profile_image');
+    const changePhoto = document.getElementById('changePhoto');
+    const deletePhotoButton = document.getElementById('deletePhoto');
+    const cancelButton = document.getElementById('cancelModal');
+    const modalDiv = document.querySelector('.modalDiv');
+    const profilePicture = document.querySelector(".profile-picture");
+    
+    profilePicture.addEventListener('click', function () {
+        profileModal.classList.remove('hidden');
+        profileModal.classList.add('active');
+    });
+
+    changePhoto.addEventListener('click', function () {
+        profileImageInput.click();
+    });
+
+    cancelButton.addEventListener('click', function () {
+        profileModal.classList.remove('active');
+    });
+
+    profileImageInput.addEventListener('change', function () {
+        document.getElementById('profilePhotoForm').submit();
+    });
+
+    deletePhotoButton.addEventListener('click', function () {
+        document.getElementById('profile_image').value = null;
+        document.getElementById('profilePhotoForm').submit();
+        profileModal.classList.remove('active');
+    });
+
+    profileModal.addEventListener('click', function (event) {
+        if (!modalDiv.contains(event.target)) {
+            profileModal.classList.remove('active');
+        }
+    });  
+});
 
 

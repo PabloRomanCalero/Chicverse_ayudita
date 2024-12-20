@@ -75,10 +75,12 @@ class UserController extends Controller
             $request->file('profile_image')->move($userFolder, $fileName);
             $user->profile_photo = 'img/profilePhotos/' . $user->id . '/' . $fileName;
             $user->save();
-            return redirect()->back();
+        } else{
+            $user->profile_photo = 'img/profilePhotos/default/default-avatar-icon.jpg';
+            $user->save();
         }
 
-        return redirect()->back()->with('error', 'No se proporcionó ninguna imagen válida.');
+        return redirect()->back();
     }
     public function deleteUser()
     {

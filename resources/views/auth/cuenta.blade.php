@@ -41,6 +41,21 @@
         </div>
     </div>
     <div class="media-container" id="media-container"></div>
+
+    <div id="profileModal" class="profileModal hidden">
+        <div class="modalContent">
+            <h3>Cambiar foto del perfil</h3>
+            <div class="modalDiv">
+                <form id="profilePhotoForm2" method="POST" action="{{ route('profilePhoto') }}" enctype="multipart/form-data">
+                    @csrf
+                    <button type="button" id="changePhoto" class="modalButton">Cambiar foto</button>
+                    <input type="file" id="profile_image" name="profile_image" accept=".jpg, .jpeg, .png" class="hidden">  
+                </form>
+                <button type="button" id="deletePhoto" class="modalButton">Eliminar foto actual</button>
+                <button type="button" id="cancelModal" class="modalButton">Cancelar</button>
+            </div>
+        </div>
+    </div>
     
 </section>
 @endsection
